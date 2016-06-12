@@ -2,6 +2,13 @@
 
 This is a RaspberryPi project with a talking parrot
 
+1. [RaspberryPi setup](##raspberrypi-setup)
+  1. [i2c](###i2c)
+  2. [gpio](###gpio)
+  3. [raspicam](###raspicam)
+  4. [graphicsmagick](###graphicsmagick)
+2. [Node modules](##node-modules)
+
 ## RaspberryPi setup
 Aurelius uses several libraries like i2c, gpio, raspicam and graphicsmagick. Follow these steps to set up your pi.
 
@@ -107,7 +114,7 @@ Needed for image comparison
 sudo apt-get install graphicsmagick
 ```
 
-## Node Modules
+## Node modules
 Load these node modules in your working directory to make the code working
 ```
 npm install i2c-bus i2c-mpu6050 pi-gpio raspicam gm
