@@ -96,6 +96,11 @@ In the config menu select:
 2. Finish
 Reboot the Raspberry and you're good to go
 
+(optional) Eventually you're running in some problems with permissions, here's a little workaround:
+```
+sudo chmod 777 /dev/vchiq
+```
+
 ### graphicsmagick
 Needed for image comparison
 ```
