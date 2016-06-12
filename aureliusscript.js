@@ -117,7 +117,7 @@ gm.compare(originalImg, compareImg, function(err, equality, raw) {
 var readSensors = function() {
   readGpio();
   readMpu();
-  readSensors();
+  //readSensors();
 };
 
-//readSensors();
+readSensors();
