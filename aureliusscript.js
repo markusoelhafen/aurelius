@@ -32,6 +32,7 @@ var readMpu = function() {
 
 var pin = 12;
 var returnValue;
+gpio.close(pin);
 //var i = 0;
 //var size = 1000;
 //var gpioData = new Array(size);
@@ -59,19 +60,20 @@ var returnValue;
 };*/
 
 var readGpio = function() {
+//function readGpio() {
   // open connection to the gpio pin
   gpio.open(pin, "input", function(err) {
     // read the value of the pin
     gpio.read(pin, function(err, value) {
       // if the value is 1, set returnValue as true and log in console
-      returnValue = (value === 1 ? 'true' : 'false');
-      console.log(returnValue);
+      returnValue = (value === 1 ? true : false);
+      //console.log(returnValue);
 
-      //if (returnValue === 'true') {makeSnapshot();}
       //close pin connection
       gpio.close(pin);
-    })
-  })
+    });
+  });
+  return returnValue;
 }
 
 //readGpio();
@@ -90,6 +92,7 @@ var camOptions = {
 var camera = new cam(camOptions);
 
 var makeSnapshot = function() {
+    console.log("making snapshot")
     camera.start(camOptions);
     camera.on("read", function(err, filename){
       console.log("Camera: " + filename + " saved.")
@@ -114,10 +117,11 @@ gm.compare(originalImg, compareImg, function(err, equality, raw) {
 // =====
 // READ DATA FROM SENSORS
 
-var readSensors = function() {
-  readGpio();
-  readMpu();
+var runAurelius = function() {
+  if(readGpio() === true) {console.log("snap"); makeSnapshot(); clearInterval(timer);}
+  console.log(readGpio());
+  //readMpu();
   //readSensors();
 };
-
-readSensors();
+// runAurelius on Startup every 5 seconds
+var timer = setInterval (runAurelius, 5000);
