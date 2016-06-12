@@ -3,7 +3,7 @@ var i2c = require('i2c-bus');
 var mpu = require('i2c-mpu6050');
 var gpio = require('pi-gpio');
 var cam = require('raspicam');
-var gm = require('gm');
+/*var gm = require('gm');*/
 
 // ==================
 // SETUP I2C - MPU650
@@ -12,14 +12,19 @@ var gm = require('gm');
 var address = 0x68;
 var i2c1 = i2c.openSync(1);
 
-var sensor = new mpu(i2c1, address);
+var mpuSensor = new mpu(i2c1, address);
 
 // read all data
-var mpuData = sensor.readSync();
-var temp = mpuData.temp;
-var rotation = mpuData.rotation; // object with x, y, z data
-var gyro = mpuData.gyro; // object with x, y, z data
-var accel = mpuData.accel; // object with x, y, z data
+//var mpuData = mpuSensor.readSync();
+//var temp = mpuData.temp;
+//var rotation = mpuData.rotation; // object with x, y, z data
+//var gyro = mpuData.gyro; // object with x, y, z data
+//var accel = mpuData.accel; // object with x, y, z data
+
+var readMpu = function() {
+  mpuData = mpuSensor.readSync();
+  console.log(mpuData);
+}
 
 
 // ======================
@@ -27,11 +32,11 @@ var accel = mpuData.accel; // object with x, y, z data
 
 var pin = 12;
 var returnValue;
-var i = 0;
-var size = 1000;
-var gpioData = new Array(size);
+//var i = 0;
+//var size = 1000;
+//var gpioData = new Array(size);
 
-var readGpio = funtion() {
+/*var readGpio = funtion() {
   gpio.open(pin, "input", function(err) {
     gpio.read(pin, function(err, value) {
       if(value === 1){
@@ -48,12 +53,28 @@ var readGpio = funtion() {
 
       gpio.close(pin);
 
-      readGpio();
+      //readGpio();
     });
   });
-};
+};*/
 
-readGpio();
+var readGpio = function() {
+  // open connection to the gpio pin
+  gpio.open(pin, "input", function(err) {
+    // read the value of the pin
+    gpio.read(pin, function(err, value) {
+      // if the value is 1, set returnValue as true and log in console
+      returnValue = (value === 1 ? 'true' : 'false');
+      console.log(returnValue);
+
+      //if (returnValue === 'true') {makeSnapshot();}
+      //close pin connection
+      gpio.close(pin);
+    })
+  })
+}
+
+//readGpio();
 
 
 // ==============
@@ -68,12 +89,16 @@ var camOptions = {
 
 var camera = new cam(camOptions);
 
-camera.start(camOptions);
-
+var makeSnapshot = function() {
+    camera.start(camOptions);
+    camera.on("read", function(err, filename){
+      console.log("Camera: " + filename + " saved.")
+    });
+}
 
 // =============
 // SETUP COMPARE
-
+/*
 var originalImg = 'originalImg.jpg';
 var compareImg = 'compareImg.jpg';
 
@@ -83,3 +108,16 @@ gm.compare(originalImg, compareImg, function(err, equality, raw) {
   console.log('equality: ' + equality);
   console.log('raw: ' + raw);
 })
+*/
+
+
+// =====
+// READ DATA FROM SENSORS
+
+var readSensors = function() {
+  readGpio();
+  readMpu();
+  readSensors();
+};
+
+//readSensors();
