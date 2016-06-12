@@ -2,10 +2,10 @@
 
 This is a RaspberryPi project with a talking parrot
 
-# RaspberryPi setup
+## RaspberryPi setup
 uurelius uses several libraries like i2c, gpio, raspicam and graphicsmagick. Follow these steps to set up your pi.
 
-## i2c
+### i2c
 First you need to install i2c-tools on your raspberry:
 ```
 sudo apt-get install i2c-tools
@@ -70,13 +70,13 @@ Restart your Raspberry and try again, it should work now
 ### gpio
 Comming soon
 
-## raspicam
+### raspicam
 Comming soon
 
-## graphicsmagick
+### graphicsmagick
 Comming soon
 
-# Node Modules
+## Node Modules
 Load these node modules in your working directory to make the code working
 ```
 npm install i2c-bus i2c-mpu6050 pi-gpio raspicam gm
