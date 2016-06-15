@@ -1,6 +1,5 @@
 function setup(options) {
-  var camera = new cam(camOptions);
-  camOptions = options
+  var camera = new cam(options);
 }
 
 function takeSnapshot(options, callback) {
@@ -15,3 +14,4 @@ function takeSnapshot(options, callback) {
 }
 
 module.exports = { takeSnapshot:takeSnapshot };
+module.exports = { setup:setup };

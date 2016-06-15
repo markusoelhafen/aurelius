@@ -7,45 +7,29 @@ var cam = require('raspicam');
 var audio = require('modules/audio.js');
 var camera = require('modules/camera.js')
 var compare = require('modules/compare.js');
+var readmpu = require('modules/readmpu.js');
+var readGpio = require('modules/readgpio.js');
 
 var img1 = '/home/pi/src/compareImg.jpg';
 var img2 = '/home/pi/src/originalImg.jpg';
 
 // ==================
-// SETUP I2C - MPU650
-
-// get address from raspberry using 'sudo i2cdetect -y 1'
-var address = 0x68;
+// SETUP I2C - MPU650 (get address from raspberry using 'sudo i2cdetect -y 1')
+var i2cAdress = 0x68;
 var i2c1 = i2c.openSync(1);
+readmpu.setup(i2c1, i2cAdress);
 
-var mpuSensor = new mpu(i2c1, address);
-
-function readMpu() {
-  mpuData = mpuSensor.readSync();
-  console.log(mpuData);
-}
-
-
-// ======================
 // SETUP GPIO - IR SENSOR
-
-var pin = 12;
-var returnValue;
-//var i = 0;
-//var size = 1000;
-//var gpioData = new Array(size);
+var gpioPin = 12;
 
 function readGpio(callback) {
   // open connection to the gpio pin
-  gpio.open(pin, "input", function(err) {
+  gpio.open(gpioPin, "input", function(err) {
     // read the value of the pin
-    gpio.read(pin, function(err, value) {
-      // if the value is 1, set returnValue as true and log in console
-      gpio.close(pin);
+    gpio.read(gpioPin, function(err, value) {
+      // close pin again
+      gpio.close(gpioPin);
       callback(value === 1);
-      //console.log(returnValue);
-
-      //close pin connection
     });
   });
 };
@@ -61,6 +45,8 @@ var camOptions = {
 };
 camera.setup(camOptions);
 
+// ==============
+// RUN SCRIPT
 function runAurelius() {
   readGpio(function(value) {
     if (!value)
