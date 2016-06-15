@@ -3,7 +3,7 @@ var i2c = require('i2c-bus');
 var mpu = require('i2c-mpu6050');
 var gpio = require('pi-gpio');
 var cam = require('raspicam');
-var audio = require('audio.js');
+var audio = require('modules/audio.js');
 
 /*var gm = require('gm');*/
 
