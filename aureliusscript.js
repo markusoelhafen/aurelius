@@ -3,6 +3,8 @@ var i2c = require('i2c-bus');
 var mpu = require('i2c-mpu6050');
 var gpio = require('pi-gpio');
 var cam = require('raspicam');
+var audio = require('./audio.js');
+
 /*var gm = require('gm');*/
 
 // ==================
@@ -32,7 +34,6 @@ var readMpu = function() {
 
 var pin = 12;
 var returnValue;
-gpio.close(pin);
 //var i = 0;
 //var size = 1000;
 //var gpioData = new Array(size);
@@ -59,22 +60,21 @@ gpio.close(pin);
   });
 };*/
 
-var readGpio = function() {
+var readGpio = function(callback) {
 //function readGpio() {
   // open connection to the gpio pin
   gpio.open(pin, "input", function(err) {
     // read the value of the pin
     gpio.read(pin, function(err, value) {
       // if the value is 1, set returnValue as true and log in console
-      returnValue = (value === 1 ? true : false);
+      gpio.close(pin);
+      callback(value === 1);
       //console.log(returnValue);
 
       //close pin connection
-      gpio.close(pin);
     });
   });
-  return returnValue;
-}
+};
 
 //readGpio();
 
@@ -93,10 +93,12 @@ var camera = new cam(camOptions);
 
 var makeSnapshot = function() {
     console.log("making snapshot")
-    camera.start(camOptions);
-    camera.on("read", function(err, filename){
-      console.log("Camera: " + filename + " saved.")
-    });
+    // camera.start(camOptions);
+    // camera.on("read", function(err, filename){
+    //   console.log("Camera: " + filename + " saved.")
+    // });
+    // camera.stop();
+    setTimeout(runAurelius, 1000);
 }
 
 // =============
@@ -117,11 +119,18 @@ gm.compare(originalImg, compareImg, function(err, equality, raw) {
 // =====
 // READ DATA FROM SENSORS
 
-var runAurelius = function() {
-  if(readGpio() === true) {console.log("snap"); makeSnapshot(); clearInterval(timer);}
-  console.log(readGpio());
+function runAurelius() {
+  readGpio(function(value) {
+    if (value) {
+      makeSnapshot();
+      audio.playAudioFile('audio.wav');
+    } else {
+      setTimeout(runAurelius, 20);
+    }
+  });
   //readMpu();
   //readSensors();
 };
+
 // runAurelius on Startup every 5 seconds
-var timer = setInterval (runAurelius, 5000);
+runAurelius();
