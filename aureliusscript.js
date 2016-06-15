@@ -4,6 +4,10 @@ var mpu = require('i2c-mpu6050');
 var gpio = require('pi-gpio');
 var cam = require('raspicam');
 var audio = require('modules/audio.js');
+var compare = require('modules/compare.js');
+
+var img1 = '/home/pi/src/compareImg.jpg';
+var img2 = '/home/pi/src/originalImg.jpg';
 
 /*var gm = require('gm');*/
 
@@ -38,28 +42,6 @@ var returnValue;
 //var size = 1000;
 //var gpioData = new Array(size);
 
-/*var readGpio = funtion() {
-  gpio.open(pin, "input", function(err) {
-    gpio.read(pin, function(err, value) {
-      if(value === 1){
-        returnValue = 'true';
-      } else {
-        returnValue = 'false';
-      }
-
-      gpioData[i] = (returnValue == 'true' ? 1 : 0);
-      i++;
-      if (i >= size) {i = 0;}
-
-      console.log(returnValue);
-
-      gpio.close(pin);
-
-      //readGpio();
-    });
-  });
-};*/
-
 var readGpio = function(callback) {
 //function readGpio() {
   // open connection to the gpio pin
@@ -75,9 +57,6 @@ var readGpio = function(callback) {
     });
   });
 };
-
-//readGpio();
-
 
 // ==============
 // SETUP RASPICAM
@@ -98,7 +77,8 @@ var makeSnapshot = function() {
     //   console.log("Camera: " + filename + " saved.")
     // });
     // camera.stop();
-    setTimeout(runAurelius, 1000);
+    compare.compareFiles(img1, img2))
+    setTimeout(runAurelius, 30000);
 }
 
 // =============
