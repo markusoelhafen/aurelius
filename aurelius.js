@@ -20,7 +20,7 @@ var i2c1 = i2c.openSync(1);
 
 var mpuSensor = new mpu(i2c1, address);
 
-var readMpu = function() {
+function readMpu() {
   mpuData = mpuSensor.readSync();
   console.log(mpuData);
 }
