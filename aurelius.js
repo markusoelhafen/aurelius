@@ -1,5 +1,5 @@
 // Get all the node modules
-var gm = require('gm');
+var cmp = require('gm').compare;
 var i2c = require('i2c-bus');
 var mpu = require('i2c-mpu6050');
 var gpio = require('pi-gpio');

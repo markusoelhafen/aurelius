@@ -1,0 +1,43 @@
+{
+  "name": "aurelius",
+  "version": "0.0.1",
+  "description": "raspberrypi script for a speaking parrot",
+  "main": "aurelius.js",
+  "dependencies": {
+    "gm": "^1.22.0",
+    "grunt": "^0.4.5",
+    "grunt-contrib-watch": "^1.0.0",
+    "grunt-scp": "^0.1.10",
+    "i2c-bus": "^1.1.0",
+    "i2c-mpu6050": "^2.2.1",
+    "node-aplay": "^1.0.3",
+    "node-resemble-js": "^0.0.5",
+    "omxctrl": "^0.1.2",
+    "pi-gpio": "^0.0.8",
+    "say": "^0.9.0"
+  },
+  "devDependencies": {
+    "gulp": "^3.9.1"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/markusoelhafen/aurelius.git"
+  },
+  "keywords": [
+    "raspberry",
+    "pi",
+    "aurelius",
+    "mpu6050",
+    "gpio",
+    "i2c"
+  ],
+  "author": "markus oelhafen",
+  "license": "UNLICENSED",
+  "bugs": {
+    "url": "https://github.com/markusoelhafen/aurelius/issues"
+  },
+  "homepage": "https://github.com/markusoelhafen/aurelius#readme"
+}
