@@ -1,7 +1,13 @@
 var gulp = require('gulp');
 var gscp = require('gulp-scp');
 var watch = require('gulp-watch');
-// define server connection in config.json file
+// create config.json with SSH info:
+//{
+//   "server" : "000.000.0.000",
+//   "user" : "$USER",
+//   "password" : "$PWD",
+//   "path" : "/path/to/destination/"
+// }
 var config = require('config.json');
 
 gulp.task('watch', function() {
