@@ -1,18 +1,23 @@
 var gulp = require('gulp');
-var scp = require('gulp-scp');
-var gitWatch = require('gulp-git-watch');
+var gscp = require('gulp-scp');
+var watch = require('gulp-watch');
+// define server connection in config.json file
+var config = require('config.json');
 
-gulp.task('git-watch', function() {
-	gitWatch()
-		.on('check', function() {
-			console.log('CHECK!');
-		})
-		.on('change', function(newHash, oldHash) {
-			console.log('CHANGES! FROM', oldHash, '->', newHash);
-		});
+gulp.task('watch', function() {
+	gulp.watch('./*', ['deploy']):
 });
 
 
 gulp.task('deploy', function() {
-  // place code for your default task here
+  return gulp.src('./*')
+  .pipe(scp({
+    host: config.server, // enter pi address here
+    username: config.user,
+    password: config.password,
+    dest: config.path
+  }))
+  .on('error', function(err) {
+    console.log(err);
+  });
 });
